@@ -44,7 +44,10 @@ class App extends React.Component {
       <div
         className='table'
       >
-        <div className='row'>
+        <div
+          className='row'
+          style={{ clear: 'left', overflow: 'hidden' }}
+        >
           <div
             className='cell-outer'
             style={{
@@ -190,17 +193,48 @@ class App extends React.Component {
         </div>
         {this.state.gameBoard.map((gameBoardArray, index) => {
           return (
-            <div className='row'>
+            <div className='row'
+              style={{ clear: 'left', overflow: 'hidden' }}
+            >
               <div className='cell-outer'>
               {gameBoardArray.map((startingTile, index) =>
                 <div className={`${index}`}>
-                  {index === 0 ? <div>{this.state.count++}</div> : null}
+                  {index === 0
+                    ?
+                    <div
+                      style={{
+                        float: 'left',
+                        width: '30px',
+                        padding: '2px',
+                        height: '30px',
+                        borderRight: '1px solid #5C9DC2',
+                        borderBottom: '1px solid #5C9DC2',
+                        background: '#3a7ca8',
+                        textAlign: 'center',
+                        lineHeight: '30px',
+                        color: '#071E7A',
+                        textShadow: '#FFFFFF 0.05em 0.05em 0.1em'
+                      }}
+                    >
+                      {this.state.count++}
+                    </div>
+                    : null
+                  }
                 </div>
               )}
               {gameBoardArray.map((tile, index) => {
                 return (
 
-                  <div className='cell-inner'>
+                  <div className='cell-inner'
+                    style={{
+                      float: 'left',
+                      width: '30px',
+                      padding: '2px',
+                      height: '30px',
+                      borderRight: '1px solid #5C9DC2',
+                      borderBottom: '1px solid #5C9DC2'
+                    }}
+                  >
                     <div>Tile</div>
                   </div>
                 );
