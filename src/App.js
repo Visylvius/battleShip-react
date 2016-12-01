@@ -235,7 +235,9 @@ class App extends React.Component {
                       borderBottom: '1px solid #5C9DC2'
                     }}
                   >
-                    <div>Tile</div>
+                    <div>
+                    Tile
+                    </div>
                   </div>
                 );
               })}
