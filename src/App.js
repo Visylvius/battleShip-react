@@ -11,7 +11,9 @@ class App extends React.Component {
       gameBoard: null,
       count: 1,
       currentlySelectingShip: false,
-      finishedShipSelection: false
+      finishedShipSelection: false,
+      player1SelectedShips: [],
+      currentlySelectedShipLength: null
     };
   }
 
@@ -45,10 +47,18 @@ class App extends React.Component {
 
   initialShipPlacement(event) {
     event.preventDefault();
-    console.log('yo im working for now');
-
-    console.log('state', this.state);
-    this.setState({ currentlySelectingShip: true });
+    let currentlySelectedShipArray = [];
+    currentlySelectedShipArray.push(Number(event.target.ship.value));
+    console.log(currentlySelectedShipArray);
+    // console.log('event.target', typeof Number(event.target.ship.value));
+    this.setState({
+      currentlySelectingShip: true,
+      currentlySelectedShipLength: Number(event.target.ship.value),
+      player1SelectedShips: this.state.player1SelectedShips.concat(currentlySelectedShipArray)
+    }, () => {
+      console.log('this.state', this.state);
+    });
+    // console.log('this.state', this.state);
   }
 
   render() {

@@ -12,11 +12,11 @@ const ShipSelect = (props) => {
         onSubmit={props.playerSelectsShip}
       >
       {console.log('props', props.playerSelectsShip)}
-        <input type='checkbox' value='destroyer' /> Destroyer
-        <input type='checkbox' value='submarine' /> Submarine
-        <input type='checkbox' value='cruiser' /> Cruiser
-        <input type='checkbox' value='battleship' /> Battleship
-        <input type='checkbox' value='carrier' /> Carrier
+        <input type='radio' name='ship' value='2' /> Destroyer
+        <input type='radio' id='submarine' name='ship' value='3' /> Submarine
+        <input type='radio' id='cruiser' name='ship' value='3' /> Cruiser
+        <input type='radio' name='ship' value='4' /> Battleship
+        <input type='radio' name='ship' value='5' /> Carrier
         <button type='submit'>Place Ship</button>
       </form>
     </div>
