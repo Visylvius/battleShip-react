@@ -1,5 +1,6 @@
 import React from 'react';
-
+import ShipSelect from './Ship-Select';
+import GameBoard from './GameBoard';
 /**
  * A counter button: tap the button to increase the count.
  */
@@ -8,7 +9,9 @@ class App extends React.Component {
     super();
     this.state = {
       gameBoard: null,
-      count: 0
+      count: 1,
+      currentlySelectingShip: false,
+      finishedShipSelection: false
     };
   }
 
@@ -32,220 +35,37 @@ class App extends React.Component {
                         };
         }
     }
+    console.log('this before gameBoard creation', this);
     this.setState({ gameBoard: arr });
   }
 
-   verticalCount() {
-    this.setState({ count: this.state.count++ });
-   }
+  onInputChange(event) {
+    console.log('event', event);
+  }
+
+  initialShipPlacement(event) {
+    event.preventDefault();
+    console.log('yo im working for now');
+
+    console.log('state', this.state);
+    this.setState({ currentlySelectingShip: true });
+  }
 
   render() {
     return (
       <div
-        className='table'
+        className='main-container'
       >
-        <div
-          className='row'
-          style={{ clear: 'left', overflow: 'hidden' }}
-        >
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          A
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          B
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          C
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          D
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          E
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          F
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          G
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          H
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          I
-          </div>
-          <div
-            className='cell-outer'
-            style={{
-                float: 'left',
-                width: '30px',
-                padding: '2px',
-                height: '30px',
-                borderRight: '1px solid #5C9DC2',
-                borderBottom: '1px solid #5C9DC2'
-              }}
-          >
-          J
-          </div>
-        </div>
-        {this.state.gameBoard.map((gameBoardArray, index) => {
-          return (
-            <div className='row'
-              style={{ clear: 'left', overflow: 'hidden' }}
-            >
-              <div className='cell-outer'>
-              {gameBoardArray.map((startingTile, index) =>
-                <div className={`${index}`}>
-                  {index === 0
-                    ?
-                    <div
-                      style={{
-                        float: 'left',
-                        width: '30px',
-                        padding: '2px',
-                        height: '30px',
-                        borderRight: '1px solid #5C9DC2',
-                        borderBottom: '1px solid #5C9DC2',
-                        background: '#3a7ca8',
-                        textAlign: 'center',
-                        lineHeight: '30px',
-                        color: '#071E7A',
-                        textShadow: '#FFFFFF 0.05em 0.05em 0.1em'
-                      }}
-                    >
-                      {this.state.count++}
-                    </div>
-                    : null
-                  }
-                </div>
-              )}
-              {gameBoardArray.map((tile, index) => {
-                return (
-
-                  <div className='cell-inner'
-                    style={{
-                      float: 'left',
-                      width: '30px',
-                      padding: '2px',
-                      height: '30px',
-                      borderRight: '1px solid #5C9DC2',
-                      borderBottom: '1px solid #5C9DC2'
-                    }}
-                  >
-                    <div>
-                    Tile
-                    </div>
-                  </div>
-                );
-              })}
-              </div>
-            </div>
-          );
-        })}
+      {this.state.currentlySelectingShip !== true
+        ? <ShipSelect
+            playerSelectsShip={this.initialShipPlacement.bind(this)}
+          />
+        : <GameBoard
+            gameBoard={this.state.gameBoard}
+          />
+      }
       </div>
+
     );
   }
 }
