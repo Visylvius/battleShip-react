@@ -1,4 +1,5 @@
 import React from 'react';
+import Radium from 'radium';
 
 const GameBoard = (props) => {
   let count = 1;
@@ -186,27 +187,34 @@ const GameBoard = (props) => {
                 }
               </div>
             )}
+
+
             {gameBoardArray.map((tile, index) => {
               return (
-
-                <div className='cell-inner'
+                <div
+                  className='cell-inner'
                   style={{
                     float: 'left',
                     width: '30px',
                     padding: '2px',
                     height: '30px',
                     borderRight: '1px solid #5C9DC2',
-                    borderBottom: '1px solid #5C9DC2'
+                    borderBottom: '1px solid #5C9DC2',
+                    background: '#071e7a',
+                    background: "-moz-radial-gradient('center', 'ellipse cover', '#071e7a 0%', '#3eabcd 9%', '#3eabcd 15%', '#3a7ca8 29%', '#6598c0 100%')",
+                    background: "-webkit-gradient('radial', 'center center', '0px', 'center center', '100%, color-stop(0%, #ff0f13)', 'color-stop(14%, #9b3032)', 'color-stop(24%, #3eabcd)', 'color-stop(24%, #3eabcd)', 'color-stop(29%, #3a7ca8)', 'color-stop(55%, #3eabcd)', 'color-stop(100%, #6598c0)')"
+
                   }}
+                  onClick={() => console.log('this has been clicked')}
                 >
                 {console.log('tile', tile)}
-                  <div>
+                  {/* <div>
                     <div
                       id={[tile.coordinateX, tile.coordinateY]}
+                      onClick={() => { console.log('this has been clicked')}}
                     >
-                      hello
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               );
             })}
@@ -218,4 +226,4 @@ const GameBoard = (props) => {
   );
 };
 
-export default GameBoard;
+export default Radium(GameBoard);
