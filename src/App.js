@@ -14,12 +14,12 @@ class App extends React.Component {
       finishedShipSelection: false,
       player1SelectedShips:
       [
-        {ship: 'destroyer', shipLength: 2},
-        {ship: 'submarine', shipLength: 3},
-        {ship: 'cruiser', shipLength: 3},
-        {ship: 'battleship', shipLength: 4},
-        {ship: 'carrier', shipLength: 5}
-       ],
+        { shipName: 'Destroyer', shipLength: 2 },
+        { shipName: 'Submarine', shipLength: 3 },
+        { shipName: 'Cruiser', shipLength: 3 },
+        { shipName: 'Battleship', shipLength: 4 },
+        { shipName: 'Carrier', shipLength: 5 }
+      ],
       currentlySelectedShipLength: null
     };
   }
@@ -52,23 +52,16 @@ class App extends React.Component {
     console.log('event', event);
   }
 
-  initialShipPlacement(event) {
-    event.preventDefault();
-    let currentlySelectedShipArray = [];
-    currentlySelectedShipArray.push(Number(event.target.ship.value));
-    console.log(currentlySelectedShipArray);
+  initialShipPlacement(shipName, shipLength) {
+    console.log('shipName', shipName, 'shiplength', shipLength);
     // console.log('event.target', typeof Number(event.target.ship.value));
     this.setState({
       currentlySelectingShip: true,
-      currentlySelectedShipLength: Number(event.target.ship.value),
-      player1SelectedShips: this.state.player1SelectedShips.concat(currentlySelectedShipArray)
+      currentlySelectedShipLength: shipLength
     }, () => {
       console.log('this.state', this.state);
     });
-    // console.log('this.state', this.state);
   }
-
-  
 
   render() {
     return (
