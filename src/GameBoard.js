@@ -19,11 +19,10 @@ const GameBoard = (props) => {
         <div className='cell cell-outer'>I</div>
         <div className='cell cell-outer'>J</div>
       </div>
-      {props.gameBoard.map((gameBoardArray, index) => {
-        return (
+      {props.gameBoard.map((gameBoardArray, indexes) =>
           <div
             className='row'
-            key={index}
+            key={indexes}
           >
             <div
               className='cell cell-outer'
@@ -31,21 +30,17 @@ const GameBoard = (props) => {
             >
               {count++}
             </div>
-            {gameBoardArray.map((tile, index) => {
-              return (
-                <div
-                  className='cell cell-inner'
-                  key={index}
-                  onClick={() => console.log('this has been clicked')}
-                >
-                {console.log('tile', tile)}
-                </div>
-              );
-            })}
-
+            {gameBoardArray.map((tile, index) =>
+              <div
+                className='cell cell-inner'
+                key={index}
+                onClick={() => console.log('this has been clicked')}
+              >
+              {console.log('tile', tile)}
+              </div>
+            )}
           </div>
-        );
-      })}
+      )}
     </div>
   );
 };
