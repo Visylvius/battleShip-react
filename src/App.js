@@ -12,7 +12,14 @@ class App extends React.Component {
       count: 1,
       currentlySelectingShip: false,
       finishedShipSelection: false,
-      player1SelectedShips: [],
+      player1SelectedShips:
+      [
+        {ship: 'destroyer', shipLength: 2},
+        {ship: 'submarine', shipLength: 3},
+        {ship: 'cruiser', shipLength: 3},
+        {ship: 'battleship', shipLength: 4},
+        {ship: 'carrier', shipLength: 5}
+       ],
       currentlySelectedShipLength: null
     };
   }
@@ -61,6 +68,8 @@ class App extends React.Component {
     // console.log('this.state', this.state);
   }
 
+  
+
   render() {
     return (
       <div
@@ -69,6 +78,7 @@ class App extends React.Component {
       {this.state.currentlySelectingShip !== true
         ? <ShipSelect
             playerSelectsShip={this.initialShipPlacement.bind(this)}
+            currentlySelectedShips={this.state.player1SelectedShips}
           />
         : <GameBoard
             gameBoard={this.state.gameBoard}

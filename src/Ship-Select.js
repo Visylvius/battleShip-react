@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShipSelect = (props) => {
+const ShipSelect = ({currentlySelectedShips, playerSelectsShip}) => {
   return (
     <div
       className='ship-select-container'
@@ -9,14 +9,18 @@ const ShipSelect = (props) => {
       <form
         className='ship-select'
         style={{width: '10px'}}
-        onSubmit={props.playerSelectsShip}
+        onSubmit={playerSelectsShip}
       >
-      {console.log('props', props.playerSelectsShip)}
-        <input type='radio' name='ship' value='2' /> Destroyer
-        <input type='radio' id='submarine' name='ship' value='3' /> Submarine
-        <input type='radio' id='cruiser' name='ship' value='3' /> Cruiser
-        <input type='radio' name='ship' value='4' /> Battleship
-        <input type='radio' name='ship' value='5' /> Carrier
+      {currentlySelectedShips.map((ship) => {
+        return (
+          <div>
+            {console.log('ship', ship)}
+            <input type='radio' name='ship' />
+          </div>
+
+        )
+      })}
+
         <button type='submit'>Place Ship</button>
       </form>
     </div>
