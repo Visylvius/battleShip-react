@@ -19,6 +19,7 @@ const GameBoard = (props) => {
         <div className='cell cell-outer'>I</div>
         <div className='cell cell-outer'>J</div>
       </div>
+      {console.log('gameBoard props', props.gameBoard)}
       {props.gameBoard.map((gameBoardArray, indexes) =>
           <div
             className='row'
@@ -32,9 +33,9 @@ const GameBoard = (props) => {
             </div>
             {gameBoardArray.map((tile, index) =>
               <div
-                className='cell cell-inner'
+                className={`cell cell-inner-${tile.containsShip}`}
                 key={index}
-                onClick={() => console.log('this has been clicked')}
+                onClick={() => props.userShipPlacement(tile)}
               >
               {console.log('tile', tile)}
               </div>
