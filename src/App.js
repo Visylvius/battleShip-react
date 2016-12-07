@@ -21,7 +21,9 @@ class App extends React.Component {
         { shipName: 'Battleship', shipLength: 4 },
         { shipName: 'Carrier', shipLength: 5 }
       ],
-      currentlySelectedShipLength: null
+      currentlySelectedShipLength: null,
+      currentlySelectedShipRemainingLength: null,
+      player1lastShipPlacementCoordinates: { coordinateX: null, coordinateY: null }
     };
   }
 
@@ -38,7 +40,6 @@ class App extends React.Component {
         arr[i] = [];
         for (let j = 0; j < 10; j++) {
             arr[i][j] = {
-                          flag: false,
                           coordinateX: i,
                           coordinateY: j,
                           containsShip: false,
@@ -55,7 +56,8 @@ class App extends React.Component {
     // console.log('event.target', typeof Number(event.target.ship.value));
     this.setState({
       currentlySelectingShip: true,
-      currentlySelectedShipLength: shipLength
+      currentlySelectedShipLength: shipLength,
+      currentlySelectedShipRemainingLength: shipLength
     }, () => {
       console.log('this.state', this.state);
     });
@@ -68,33 +70,18 @@ class App extends React.Component {
   userShipPlacement(userSubmittedTile) {
     if (userSubmittedTile.containsShip === false) {
       userSubmittedTile.containsShip = true;
-      console.log('userSubmittedTile', userSubmittedTile);
+      // console.log('userSubmittedTile', userSubmittedTile);
       console.log('state', this.state);
-      this.setState({ currentlySelectedShipLength: this.state.currentlySelectedShipLength-- });
+      this.setState({
+        currentlySelectedShipRemainingLength: this.state.currentlySelectedShipLength--,
+        player1lastShipPlacementCoordinates: {
+          coordinateX: userSubmittedTile.coordinateX,
+          coordinateY: userSubmittedTile.coordinateY
+        }
+      });
     } else {
       userSubmittedTile.containsShip = false;
     }
-    // this.state.gameBoard.map((arrayOfTiles) => {
-    //   arrayOfTiles.filter((tiles) => {
-    //      if (tiles.coordinateX === userSubmittedTile.coordinateX && tiles.coordinateY === userSubmittedTile.coordinateY) {
-    //        this.setState({
-    //          gameBoard: [
-    //            ...this.state.gameBoard,
-    //            this.state.gameBoard.map(arrayOfTiles => {
-    //              arrayOfTiles.map(tiles => {
-    //                tiles.coordinateX === userSubmittedTile.coordinateX && tiles.coordinateY === userSubmittedTile.coordinateY
-    //                ? { ...tiles, containsShip: !tiles.containsShip } : tiles
-    //              });
-    //            })
-    //          ]
-    //        }, () => {console.log('state', this.state)});
-    //      }
-    //    });
-
-      // console.log('userSubmittedPoint', userSubmittedPoint);
-    // }
-
-    // );
   }
 
   render() {

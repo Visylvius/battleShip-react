@@ -84,3 +84,11 @@
   filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ff0f13', endColorstr='#6598c0', GradientType=1);
   /* IE6-9 fallback on horizontal gradient */
 }
+
+
+/** Ship Select Styles*/
+
+.ship-select-option {
+  margin-top: 15px;
+  cursor: pointer;
+}
