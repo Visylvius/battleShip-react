@@ -68,7 +68,9 @@ class App extends React.Component {
   }
 
   userShipPlacement(userSubmittedTile) {
-    if (userSubmittedTile.containsShip === false) {
+    let shipLengthComparison = this.state.currentlySelectedShipLength === this.state.currentlySelectedShipRemainingLength;
+    console.log('shipLengthComparison', shipLengthComparison);
+    if (shipLengthComparison && userSubmittedTile.containsShip === false) {
       userSubmittedTile.containsShip = true;
       // console.log('userSubmittedTile', userSubmittedTile);
       console.log('state', this.state);
@@ -78,10 +80,21 @@ class App extends React.Component {
           coordinateX: userSubmittedTile.coordinateX,
           coordinateY: userSubmittedTile.coordinateY
         }
+      }, () => {
+        console.log('currentState after shipPlacement', this.state);
       });
     } else {
       userSubmittedTile.containsShip = false;
     }
+  }
+
+  checkForDiagonalPlacement(
+    currentXCoordinate,
+    currentYCoordinate,
+    userSubmittedXCoordinate,
+    userSubmittedYCoordinate,
+    remainingLength) {
+    // let
   }
 
   render() {

@@ -37,7 +37,7 @@ const GameBoard = (props) => {
                 key={index}
                 onClick={() => props.userShipPlacement(tile)}
               >
-              {console.log('tile', tile)}
+              {/* {console.log('tile', tile)} */}
               </div>
             )}
           </div>

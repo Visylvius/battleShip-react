@@ -18,12 +18,6 @@ const ShipSelect = ({currentlySelectedShips, playerSelectsShip}) => {
             key={ship.shipName}
             onClick={() => {playerSelectsShip(ship.shipName, ship.shipLength)}}
           >
-            {/* <input
-              type='radio'
-              name='ship'
-              id={ship.shipName}
-              value={ship.shipLength}
-            /> */}
           {ship.shipName}
           </div>
 
