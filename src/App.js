@@ -23,7 +23,12 @@ class App extends React.Component {
       ],
       currentlySelectedShipLength: null,
       currentlySelectedShipRemainingLength: null,
-      player1lastShipPlacementCoordinates: { coordinateX: null, coordinateY: null }
+      player1PlacementGrid: {
+        highestXCoordinate: null,
+        lowestXCoordinate: null,
+        highestYCoordinate: null,
+        lowestYCoordinate: null
+      }
     };
   }
 
@@ -53,48 +58,73 @@ class App extends React.Component {
 
   initialShipPlacement(shipName, shipLength) {
     console.log('shipName', shipName, 'shiplength', shipLength);
-    // console.log('event.target', typeof Number(event.target.ship.value));
     this.setState({
       currentlySelectingShip: true,
+      currentlySelectedShipRemainingLength: shipLength,
       currentlySelectedShipLength: shipLength,
-      currentlySelectedShipRemainingLength: shipLength
     }, () => {
-      console.log('this.state', this.state);
+      console.log('this.state after initialShipPlacement', this.state);
     });
-    console.log('filter array', this.state.player1SelectedShips.filter(values => {
-      console.log('values', values);
-      return values.shipName !== shipName;
-    }));
+    // console.log('filter array', this.state.player1SelectedShips.filter(values => {
+    //   console.log('values', values);
+    //   return values.shipName !== shipName;
+    // }));
   }
 
   userShipPlacement(userSubmittedTile) {
+    console.log('this.state first call', this.state.currentlySelectedShipRemainingLength, this.state);
+    console.log(this.state.currentlySelectedShipLength, this.state.currentlySelectedShipRemainingLength);
     let shipLengthComparison = this.state.currentlySelectedShipLength === this.state.currentlySelectedShipRemainingLength;
     console.log('shipLengthComparison', shipLengthComparison);
     if (shipLengthComparison && userSubmittedTile.containsShip === false) {
+      // Object.assign({}, userSubmittedTile, { containsShip: true });
       userSubmittedTile.containsShip = true;
-      // console.log('userSubmittedTile', userSubmittedTile);
-      console.log('state', this.state);
+      // let newRemainingShipLength = this.state.currentlySelectedShipRemainingLength--;
+      console.log('ship length', this.state.currentlySelectedShipRemainingLength--);
       this.setState({
-        currentlySelectedShipRemainingLength: this.state.currentlySelectedShipLength--,
-        player1lastShipPlacementCoordinates: {
-          coordinateX: userSubmittedTile.coordinateX,
-          coordinateY: userSubmittedTile.coordinateY
+        currentlySelectedShipRemainingLength: this.state.currentlySelectedShipRemainingLength--,
+        player1PlacementGrid: {
+          highestXCoordinate: userSubmittedTile.coordinateX,
+          lowestXCoordinate: userSubmittedTile.coordinateX,
+          lowestYCoordinate: userSubmittedTile.coordinateY,
+          highestYCoordinate: userSubmittedTile.coordinateY,
         }
       }, () => {
         console.log('currentState after shipPlacement', this.state);
       });
+    } else if (userSubmittedTile.containsShip === false) {
+      console.log('line 96');
+      if (this.checkForProperShipPlacement(userSubmittedTile.coordinateX, userSubmittedTile.coordinateY)) {
+        console.log('it worked, and its working for 6,6');
+      }
     } else {
       userSubmittedTile.containsShip = false;
     }
   }
 
-  checkForDiagonalPlacement(
-    currentXCoordinate,
-    currentYCoordinate,
-    userSubmittedXCoordinate,
-    userSubmittedYCoordinate,
-    remainingLength) {
-    // let
+  checkForProperShipPlacement(userSubmittedXCoordinate, userSubmittedYCoordinate) {
+    let currentLength = this.state.currentlySelectedShipRemainingLength;
+    let lowestXCoordinate = this.state.player1PlacementGrid.lowestXCoordinate;
+    let highestXCoordinate = this.state.player1PlacementGrid.highestXCoordinate;
+    let highestYCoordinate = this.state.player1PlacementGrid.highestYCoordinate;
+    let lowestYCoordinate = this.state.player1PlacementGrid.lowestYCoordinate;
+    let xPointsArr = [];
+    let yPointsArr = [];
+    let sharedPointsArr = [];
+    if (currentLength === 4) {
+      console.log('yo');
+      if (highestYCoordinate + currentLength > 9 && highestXCoordinate + currentLength > 9) {
+        //this is only for one point which is 6,6.
+        console.log('in loop')
+        for (var i = lowestYCoordinate - currentLength; i < 9; i++) {
+          sharedPointsArr.push(i);
+        }
+       return sharedPointsArr.includes(userSubmittedXCoordinate) || sharedPointsArr.includes(userSubmittedXCoordinate);
+      }
+        // if (lowestXCoordinate - currentLength < 0 && lowestYCoordinate - currentLength < 0) {
+        //
+        // }
+    }
   }
 
   render() {
