@@ -1,9 +1,14 @@
 import React from 'react';
 import ShipSelect from './Ship-Select';
 import GameBoard from './GameBoard';
-/**
- * A counter button: tap the button to increase the count.
- */
+import {
+  checkForNegativePlacement,
+  checkForPointsAbove9,
+  checkForDiagonalPlacement,
+  placementPointsForLength3orMore,
+  remainingLength3Placement
+} from './Helpers/helper-functions';
+
 class App extends React.Component {
   constructor() {
     super();
@@ -98,10 +103,9 @@ class App extends React.Component {
         console.log('currentState after shipPlacement', this.state);
       });
     } else if (userSubmittedTile.containsShip === false) {
-      console.log('line 96');
+      console.log('else if userSubmittedTile === false');
       if (this.checkForProperShipPlacement(userSubmittedTile.coordinateX, userSubmittedTile.coordinateY)) {
         console.log('it worked, and its working for 6,6');
-
       }
     } else {
       userSubmittedTile.containsShip = false;
@@ -114,24 +118,16 @@ class App extends React.Component {
     let highestXCoordinate = this.state.player1PlacementGrid.highestXCoordinate;
     let highestYCoordinate = this.state.player1PlacementGrid.highestYCoordinate;
     let lowestYCoordinate = this.state.player1PlacementGrid.lowestYCoordinate;
-    let xPointsArr = [];
-    let yPointsArr = [];
-    let sharedPointsArr = [];
+    let lastXCoordinate = this.state.player1lastShipPlacementCoordinates.xCoord;
+    let lastYCoordinate = this.state.player1lastShipPlacementCoordinates.yCoord
     if (currentLength === 4) {
-      console.log('yo');
-      if (highestYCoordinate + currentLength > 9 && highestXCoordinate + currentLength > 9) {
-        //this is only for one point which is 6,6.
-        console.log('yCoord', lowestYCoordinate, 'xCoor', lowestXCoordinate);
-        for (var i = lowestYCoordinate - currentLength; i < 9; i++) {
-          sharedPointsArr.push(i);
-          console.log('sharedPoints', sharedPointsArr);
-        }
-       return sharedPointsArr.includes(userSubmittedYCoordinate) || sharedPointsArr.includes(userSubmittedXCoordinate);
+      if (checkForDiagonalPlacement(lastXCoordinate, lastYCoordinate, userSubmittedXCoordinate, userSubmittedYCoordinate) === 'y') {
+        remainingLength3Placement(currentLength, userSubmittedYCoordinate);
+      } else if (checkForDiagonalPlacement(lastXCoordinate, lastYCoordinate, userSubmittedXCoordinate, userSubmittedYCoordinate) === 'x') {
+        remainingLength3Placement(currentLength, userSubmittedXCoordinate);
       }
-        // if (lowestXCoordinate - currentLength < 0 && lowestYCoordinate - currentLength < 0) {
-        //
-        // }
-        console.log('user coords x', userSubmittedXCoordinate, 'user coords y', userSubmittedYCoordinate);
+    console.log('user coords x', userSubmittedXCoordinate, 'user coords y', userSubmittedYCoordinate);
+    return false;
     }
   }
 
