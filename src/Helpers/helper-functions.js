@@ -35,28 +35,36 @@ export const remainingLength3Placement = (remainingLength, userPoint) => {
   let pointsArr = [];
   console.log('check for negative placement', checkForNegativePlacement(remainingLength, userPoint))
   console.log('check for number > 9', checkForPointsAbove9(remainingLength, userPoint));
-  if (checkForNegativePlacement(remainingLength, userPoint)) {
-    if (checkForPointsAbove9(remainingLength, userPoint)) {
-      console.log('line 38 helper-functions');
-      return placementPointsForLength3orMore(remainingLength, userPoint);
-    }
-  } else if (checkForNegativePlacement(remainingLength, userPoint) === false) {
-      if (checkForPointsAbove9(remainingLength, userPoint)) {
-        for (let i = Math.abs(remainingLength - userPoint); i <= remainingLength + userPoint; i++) {
-          pointsArr.push(i);
-        }
-        console.log('line 45 helper-functions', pointsArr);
-        return pointsArr.includes(userPoint);
-    }
-  } else if (checkForNegativePlacement(remainingLength, userPoint)) {
-      if (checkForPointsAbove9(remainingLength, userPoint) === false) {
+  if (checkForNegativePlacement(remainingLength, userPoint) && checkForPointsAbove9(remainingLength, userPoint)) {
+    console.log('line 38 helper-functions');
+    return placementPointsForLength3orMore(remainingLength, userPoint);
+  } else if (checkForNegativePlacement(remainingLength, userPoint) === false && checkForPointsAbove9(remainingLength, userPoint)) {
+      for (let i = Math.abs(remainingLength - userPoint); i <= remainingLength + userPoint; i++) {
+        pointsArr.push(i);
+      }
+      console.log('line 45 helper-functions', pointsArr);
+      return pointsArr.includes(userPoint);
+    } else if (checkForNegativePlacement(remainingLength, userPoint) && checkForPointsAbove9(remainingLength, userPoint) === false) {
         for (let i = userPoint - remainingLength; i <= 9; i++) {
           pointsArr.push(i);
         }
         console.log('line 53 helper-functions', pointsArr);
         return pointsArr.includes(userPoint);
       }
-  }
   console.log('pointsArr line 58 helper functions', pointsArr);
   return false;
+};
+
+
+export const checkForLowestYPoint = () => {
+
+};
+
+
+export const checkForHighestYPoint = () => {
+
+};
+
+export const updateCurrentPlacementState = () => {
+
 };

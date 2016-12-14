@@ -1,4 +1,6 @@
 import React from 'react';
+import update from 'immutability-helper';
+
 import ShipSelect from './Ship-Select';
 import GameBoard from './GameBoard';
 import {
@@ -77,7 +79,87 @@ class App extends React.Component {
     // }));
   }
 
+  checkForLowestXPoint(currentXPoint, lowestXPoint) {
+    if (currentXPoint < lowestXPoint) {
+      console.log('in checkForLowestXPoint');
+      let newState = update(this.state.player1PlacementGrid, {
+        lowestXCoordinate: { $set: currentXPoint }
+      });
+      this.setState({ player1PlacementGrid: newState }, () => {
+        console.log('new state', this.state);
+      });
+      console.log('newState after function call', this.state);
+    }
+  }
+
+  checkForLowestYPoint(currentYPoint, lowestYPoint) {
+    if (currentYPoint < lowestYPoint) {
+      console.log('in checkForLowestXPoint');
+      let newState = update(this.state.player1PlacementGrid, {
+        lowestYCoordinate: { $set: currentYPoint }
+      });
+      this.setState({ player1PlacementGrid: newState }, () => {
+        console.log('new state', this.state);
+      });
+      console.log('newState after function call', this.state);
+    }
+  }
+
+  checkForHighestXPoint(currentXPoint, highestXPoint) {
+    if (currentXPoint > highestXPoint) {
+      let newState = update(this.state.player1PlacementGrid, {
+        highestXCoordinate: { $set: currentXPoint }
+      });
+      this.setState({ player1PlacementGrid: newState }, () => {
+        console.log('new state', this.state);
+      });
+      console.log('newState after function call', this.state);
+    }
+  }
+
+  checkForHighestYPoint(currentYPoint, highestYPoint) {
+    if (currentYPoint > highestYPoint) {
+      console.log('in checkForLowestXPoint');
+      let newState = update(this.state.player1PlacementGrid, {
+        highestYCoordinate: { $set: currentYPoint }
+      });
+      this.setState({ player1PlacementGrid: newState }, () => {
+        console.log('new state', this.state);
+      });
+      console.log('newState after function call', this.state);
+    }
+  }
+
+  updateStateAfterProperPlacement(planeOfMovement, userSubmittedXCoord, userSubmittedYCoord, lowestCoord, highestCoord) {
+    let currentLength = this.state.currentlySelectedShipRemainingLength - 1;
+    if (planeOfMovement === 'x') {
+      this.checkForHighestXPoint(userSubmittedXCoord, highestCoord) && this.checkForLowestXPoint(userSubmittedXCoord, lowestCoord);
+      this.setState({
+        currentlySelectedShipRemainingLength: currentLength,
+        player1lastShipPlacementCoordinates: {
+          xCoord: userSubmittedXCoord,
+          yCoord: userSubmittedYCoord
+        }
+      }, () => {
+        console.log('new state after x has been updated', this.state)
+      });
+    } else if (planeOfMovement === 'y') {
+      this.checkForHighestYPoint(userSubmittedYCoord, highestCoord) && this.checkForLowestYPoint(userSubmittedYCoord, lowestCoord);
+      this.setState({
+        currentlySelectedShipRemainingLength: currentLength,
+        player1lastShipPlacementCoordinates: {
+          xCoord: userSubmittedXCoord,
+          yCoord: userSubmittedYCoord
+        }
+      }, () => {
+        console.log('new state after y has been updated', this.state);
+      });
+    }
+  }
+
+
   userShipPlacement(userSubmittedTile) {
+    //include consts for userSubmittedTile.coordinateX && y && containsShip
     console.log('this.state first call', this.state.currentlySelectedShipRemainingLength, this.state);
     console.log(this.state.currentlySelectedShipLength, this.state.currentlySelectedShipRemainingLength);
     let shipLengthComparison = this.state.currentlySelectedShipLength === this.state.currentlySelectedShipRemainingLength;
@@ -103,9 +185,12 @@ class App extends React.Component {
         console.log('currentState after shipPlacement', this.state);
       });
     } else if (userSubmittedTile.containsShip === false) {
+      console.log('remainingLength', this.state.currentlySelectedShipRemainingLength);
       console.log('else if userSubmittedTile === false');
+      // console.log('result of function Call check proper ship placement', this.checkForProperShipPlacement(userSubmittedTile.coordinateX, userSubmittedTile.coordinateY));
       if (this.checkForProperShipPlacement(userSubmittedTile.coordinateX, userSubmittedTile.coordinateY)) {
-        console.log('it worked, and its working for 6,6');
+        console.log('userSubmittedTile', userSubmittedTile);
+        userSubmittedTile.containsShip = true;
       }
     } else {
       userSubmittedTile.containsShip = false;
@@ -122,9 +207,14 @@ class App extends React.Component {
     let lastYCoordinate = this.state.player1lastShipPlacementCoordinates.yCoord
     if (currentLength === 4) {
       if (checkForDiagonalPlacement(lastXCoordinate, lastYCoordinate, userSubmittedXCoordinate, userSubmittedYCoordinate) === 'y') {
-        remainingLength3Placement(currentLength, userSubmittedYCoordinate);
+        if (remainingLength3Placement(currentLength, userSubmittedYCoordinate)) {
+          this.updateStateAfterProperPlacement('y', userSubmittedXCoordinate, userSubmittedYCoordinate, lowestYCoordinate, highestYCoordinate);
+          return true;
+        }
       } else if (checkForDiagonalPlacement(lastXCoordinate, lastYCoordinate, userSubmittedXCoordinate, userSubmittedYCoordinate) === 'x') {
         remainingLength3Placement(currentLength, userSubmittedXCoordinate);
+        this.updateStateAfterProperPlacement('x', userSubmittedXCoordinate, userSubmittedYCoordinate, lowestXCoordinate, highestXCoordinate);
+        return true;
       }
     console.log('user coords x', userSubmittedXCoordinate, 'user coords y', userSubmittedYCoordinate);
     return false;
