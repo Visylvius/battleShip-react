@@ -23,6 +23,7 @@ class App extends React.Component {
       ],
       currentlySelectedShipLength: null,
       currentlySelectedShipRemainingLength: null,
+      player1lastShipPlacementCoordinates: { xCoord: null, yCoord: null },
       player1PlacementGrid: {
         highestXCoordinate: null,
         lowestXCoordinate: null,
@@ -83,6 +84,10 @@ class App extends React.Component {
       console.log('ship length', this.state.currentlySelectedShipRemainingLength--);
       this.setState({
         currentlySelectedShipRemainingLength: this.state.currentlySelectedShipRemainingLength--,
+        player1lastShipPlacementCoordinates: {
+          xCoord: userSubmittedTile.coordinateX,
+          yCoord: userSubmittedTile.coordinateY
+        },
         player1PlacementGrid: {
           highestXCoordinate: userSubmittedTile.coordinateX,
           lowestXCoordinate: userSubmittedTile.coordinateX,
@@ -96,6 +101,7 @@ class App extends React.Component {
       console.log('line 96');
       if (this.checkForProperShipPlacement(userSubmittedTile.coordinateX, userSubmittedTile.coordinateY)) {
         console.log('it worked, and its working for 6,6');
+
       }
     } else {
       userSubmittedTile.containsShip = false;
@@ -115,15 +121,17 @@ class App extends React.Component {
       console.log('yo');
       if (highestYCoordinate + currentLength > 9 && highestXCoordinate + currentLength > 9) {
         //this is only for one point which is 6,6.
-        console.log('in loop')
+        console.log('yCoord', lowestYCoordinate, 'xCoor', lowestXCoordinate);
         for (var i = lowestYCoordinate - currentLength; i < 9; i++) {
           sharedPointsArr.push(i);
+          console.log('sharedPoints', sharedPointsArr);
         }
-       return sharedPointsArr.includes(userSubmittedXCoordinate) || sharedPointsArr.includes(userSubmittedXCoordinate);
+       return sharedPointsArr.includes(userSubmittedYCoordinate) || sharedPointsArr.includes(userSubmittedXCoordinate);
       }
         // if (lowestXCoordinate - currentLength < 0 && lowestYCoordinate - currentLength < 0) {
         //
         // }
+        console.log('user coords x', userSubmittedXCoordinate, 'user coords y', userSubmittedYCoordinate);
     }
   }
 
