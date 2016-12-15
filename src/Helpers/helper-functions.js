@@ -14,18 +14,32 @@ export const checkForPointsAbove9 = (remainingLength, coord) => {
 
 export const loopForNegativeCoordinate = (remainingLength, userCoord, lowestCoord, highestCoord ) => {
   let pointsArr = [];
-  for (let i = Math.abs(lowestCoord - remainingLength); i <= highestCoord + remainingLength; i++) {
-    pointsArr.push(i);
+  if (remainingLength <= 2) {
+    for (let i = Math.abs(lowestCoord - remainingLength); i < highestCoord + remainingLength; i++) {
+      pointsArr.push(i);
+    }
+    return pointsArr.includes(userCoord);
+  } else if (remainingLength >= 3) {
+      for (let i = Math.abs(lowestCoord - remainingLength); i <= highestCoord + remainingLength; i++) {
+        pointsArr.push(i);
+      }
+      return pointsArr.includes(userCoord);
   }
-  return pointsArr.includes(userCoord);
 }
 
 export const loopForCoordinateOver9 = (remainingLength, userCoord, lowestCoord, highestCoord) => {
   let pointsArr = [];
-  for (let i = lowestCoord - remainingLength; i <= 9; i++) {
-    pointsArr.push(i);
+  if (remainingLength <= 2) {
+    for (let i = lowestCoord; i <= 9; i++) {
+      pointsArr.push(i);
+    }
+    return pointsArr.includes(userCoord);
+  } else if (remainingLength >= 3) {
+      for (let i = lowestCoord - remainingLength; i <= 9; i++) {
+        pointsArr.push(i);
+      }
+      return pointsArr.includes(userCoord);
   }
-  return pointsArr.includes(userCoord);
 }
 
 export const checkForDiagonalPlacement =
@@ -55,7 +69,7 @@ export const placementPointsForLength3orMore = (remainingLength, userCoordinate)
   return pointsArr.includes(userCoordinate);
 };
 
-export const placementPointsForLength2orLess = (remainingLength, userPoint, lowestCoord, highestCoord) => {
+export const placementPointsForLength3orLess = (remainingLength, userPoint, lowestCoord, highestCoord) => {
   let pointsArr = [];
   if (checkForMiddlePoint(lowestCoord, highestCoord)) {
     for (let i = lowestCoord - 1; i <= highestCoord + 1; i++) {
@@ -77,28 +91,22 @@ export const remainingLength3Placement = (remainingLength, userPoint, lowestCoor
     console.log('line 38 helper-functions');
     return placementPointsForLength3orMore(remainingLength, userPoint);
   } else if (checkForNegativePlacement(remainingLength, userPoint) === false && checkForPointsAbove9(remainingLength, userPoint)) {
-      for (let i = Math.abs(remainingLength - userPoint); i <= remainingLength + userPoint; i++) {
-        pointsArr.push(i);
-      }
-      console.log('line 45 helper-functions', pointsArr);
-      return pointsArr.includes(userPoint);
+      console.log('in if statement for negative placement')
+      return loopForNegativeCoordinate(remainingLength, userPoint, lowestCoord, highestCoord);
     } else if (checkForNegativePlacement(remainingLength, userPoint) && checkForPointsAbove9(remainingLength, userPoint) === false) {
-        for (let i = userPoint - remainingLength; i <= 9; i++) {
-          pointsArr.push(i);
-        }
-        console.log('line 53 helper-functions', pointsArr);
-        return pointsArr.includes(userPoint);
+        console.log('in if statement of point above 9');
+        return loopForCoordinateOver9(remainingLength, userPoint, lowestCoord, highestCoord);
       }
   console.log('pointsArr line 58 helper functions', pointsArr);
   return false;
 };
 
-export const remainingLength2orLessPlacement = (remainingLength, userPoint, lowestCoord, highestCoord) => {
+export const remainingLength3orLessPlacement = (remainingLength, userPoint, lowestCoord, highestCoord) => {
   let pointsArr = [];
   console.log('check for negative placement', checkForNegativePlacement(remainingLength, userPoint))
   console.log('check for number > 9', checkForPointsAbove9(remainingLength, userPoint));
   if (checkForNegativePlacement(remainingLength, userPoint) && checkForPointsAbove9(remainingLength, userPoint)) {
-    return placementPointsForLength2orLess(remainingLength, userPoint, lowestCoord, highestCoord);
+    return placementPointsForLength3orLess(remainingLength, userPoint, lowestCoord, highestCoord);
   } else if () {
 
   }
