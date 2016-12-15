@@ -205,7 +205,7 @@ class App extends React.Component {
     let lowestYCoordinate = this.state.player1PlacementGrid.lowestYCoordinate;
     let lastXCoordinate = this.state.player1lastShipPlacementCoordinates.xCoord;
     let lastYCoordinate = this.state.player1lastShipPlacementCoordinates.yCoord
-    if (currentLength === 4) {
+    if (currentLength > 2) {
       if (checkForDiagonalPlacement(lastXCoordinate, lastYCoordinate, userSubmittedXCoordinate, userSubmittedYCoordinate) === 'y') {
         if (remainingLength3Placement(currentLength, userSubmittedYCoordinate)) {
           this.updateStateAfterProperPlacement('y', userSubmittedXCoordinate, userSubmittedYCoordinate, lowestYCoordinate, highestYCoordinate);
@@ -218,6 +218,8 @@ class App extends React.Component {
       }
     console.log('user coords x', userSubmittedXCoordinate, 'user coords y', userSubmittedYCoordinate);
     return false;
+  } else if (currentLength <= 2) {
+      
     }
   }
 
